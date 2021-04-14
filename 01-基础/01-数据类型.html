@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-JS数据类型</title>
+  </head>
+  <body>
+    <!--
+    1. 分类
+      * 基本(值)类型
+        * String: 任意字符串
+        * Number: 任意的数字
+        * boolean: true/false
+        * undefined: undefined
+        * null: null
+      * 对象(引用)类型
+        * Object: 任意对象
+        * Function: 一种特别的对象(可以执行)，判断其类型是不是object返回的为true，即 Function 也是一种对象类型的数据
+        * Array: 一种特别的对象(数值下标, 内部数据是有序的，一般的对象中的数据是无序的)，判断其类型是不是object返回的为true，即 Array 也是一种对象类型的数据
+    2. 判断
+      * typeof:
+        * 它可以判断: undefined/ 数值 / 字符串 / 布尔值 / function
+        * 它不能判断的: null与object无法区分，因为判断null返回的也是 'object'  object与array也无法区分，因为返回的也都是 'object'
+      * instanceof:
+        * 判断对象的具体类型
+      * ===
+        * 可以判断: undefined, null
+    -->
+
+    <script type="text/javascript">
+      //1. 基本类型
+      // 注意 ： typeof返回值是 数据类型的字符串表达
+      //   判断一个数据的数据类型是不是undefined，应该这样判断  typeof a === 'undefined' 或者 a === undefined
+      let a;
+      console.log(a, typeof a, typeof a === "undefined", a === undefined); // undefined 'undefined' true true
+      console.log(undefined === "undefined"); //第二个是string类型的字符串，所以肯定是false
+      a = 6;
+      console.log(typeof a === "number");
+      a = "qwerty";
+      console.log(typeof a === "string");
+      a = true;
+      console.log(typeof a === "boolean");
+      a = null;
+      console.log(typeof a, a === null); // typeof不能判断null类型数据，会返回 'object'，虽然控制台显示是 object  ，实际上是 'object',下一个输出可以证明
+      console.log(typeof a === "object", a === null);
+
+      console.log("-----------------");
+      //2. 对象(引用)类型
+      let b1 = {
+        b2: [1, "abc", console.log],
+        b3: function () {
+          console.log("b3");
+          return function () {
+            return "hahahaha";
+          };
+        },
+      };
+
+      //第一个判断是，判断b1是不是object的实例，返回为true，即b1是一个object对象，第二个判断是，判断b1是不是array的实例，返回为false，说明b1不是array的实例，即b1不是数组
+      console.log(b1 instanceof Object, b1 instanceof Array); // true  false
+      console.log(b1.b2 instanceof Array, b1.b2 instanceof Object); // true true
+      console.log(b1.b3 instanceof Function, b1.b3 instanceof Object); // true true
+
+      console.log(typeof b1.b2, "-------"); // 'object'
+
+      console.log(typeof b1.b3 === "function"); // true
+
+      console.log(typeof b1.b2[2] === "function"); // true
+      b1.b2[2](4); //b1.b2[2]是一个函数，函数可以通过在函数后面直接加()来进行调用，即此时这条语句相当于是执行了一个函数（这个函数就是console.log(4)）
+      console.log(b1.b3()()); //b1.b3()是一个函数，需要让其执行即在其后面加上一个()，此时表示执行函数 b1.b3()
+    </script>
+  </body>
+</html>

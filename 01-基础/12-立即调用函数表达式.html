@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-立即调用函数</title>
+  </head>
+  <body>
+    <!--
+    1. 理解
+      * IIFE : Immediately-Invoked Function Expression，立即调用函数表达式,定义时就会立即执行的 JavaScript 函数。
+    2. 作用
+      * 隐藏实现
+      * 不会污染外部(全局)命名空间，IIFE 中的匿名函数拥有 独立的词法作用域。这不仅避免了外界访问此 IIFE 中的变量，而且又不会污染全局作用域。
+      * 用它来编码js模块
+      *【注意】如果将 IIFE 分配给一个变量，不是存储 IIFE 本身，而是存储 IIFE 执行后返回的结果。
+    3. 写法：
+    * 方式一：推荐使用
+      (function (){/* code */}())
+    * 方式二：
+      (function (){/* code */})()
+    -->
+    <script type="text/javascript">
+      //匿名函数自调用
+      // IIFE 中的匿名函数拥有 独立的词法作用域。这不仅避免了外界访问此 IIFE 中的变量，而且又不会污染全局作用域。
+      // 所以在这个函数中定义的变量能在外面再次定义，因为不属于同一个作用域。其内部定义的变量不会和外部的变量发生冲突
+      (function () {
+        let a = 3;
+        console.log(a + 3);
+      })();
+      let a = 4;
+      console.log(a);
+      (function () {
+        let a = 1;
+        function test() {
+          console.log(++a);
+        }
+        // 向外暴露一个全局函数
+        window.$ = function () {
+          return {
+            test: test,
+          };
+        };
+      })();
+
+      $().test(); // 1. $是一个函数 2. $执行后返回的是一个对象
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-JS调用函数时数据传递的问题</title>
+  </head>
+  <body>
+    <!--
+    问题: 在js调用函数时传递变量参数时, 是值传递还是引用传递
+      * 理解1: 都是值(基本/地址值)传递
+      * 理解2: 可能是值传递, 也可能是引用传递(地址值)
+    -->
+    <script type="text/javascript">
+      let a = 3;
+      function fn(a) {
+        a = a + 1;
+      }
+      //   此时传递的是 3 不是 a,即相当于是fn(3)，在调用函数时，将函数中的形参 a 赋值为3，
+      //   此时函数内部操作的只是形参的数据，和原来的实参 a 没有任何关系，并不会影响原来的 a 的值
+      fn(a);
+      console.log(a);
+
+      function fn2(obj) {
+        // obj.name = "哈哈哈"; //此时修改是obj对象中的属性，并没有将形参obj和外部的实参obj的连接断开，所以会改变原来的obj对象的属性值
+        obj = { name: "去玩儿" }; //此时将形参obj和外部的实参obj的连接断开了，让其指向了新的对象{ name: "去玩儿" }，此时并不会改变外部的原来的obj对象的属性值
+        console.log(obj.name); //此时输出的是内部的形参对象中的属性值，即函数内部的obj对象的name属性值，只要函数内部的形参的属性值改变，这个输出的结果就会被改变
+      }
+      let obj = { name: "Tom" };
+      //   此时传递是的obj对象的地址值，即调用fn2(obj)其实是相当于将原来对象的地址值赋值给了fn2的形参(局部变量obj),
+      fn2(obj);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-JS对象内部的数据访问什么时候必须使用['属性名']的方式</title>
+  </head>
+  <body>
+    <!--
+    问题: 什么时候必须使用['属性名']的方式?
+      1. 属性名包含特殊字符: - 空格
+      2. 属性名不确定（属性名是一个变量，如果直接用 .属性名的方式来设置属性值，会导致设置的属性名是变量名，并不是变量的值）
+    -->
+    <script type="text/javascript">
+      let p = {};
+      //1. 需求： 给p对象添加一个属性: content type: text/json
+      //   p.content-type = 'text/json' //不能用
+      p["content-type"] = "text/json";
+      console.log(p["content-type"]);
+
+      //2. 属性名不确定
+      let propName = "myAge";
+      let value = 18;
+      // p.propName = value //不能用，此时表示的是p对象下的propName属性，并不是我们想要的自己设置的那个"myAge"
+      p[propName] = value;
+      console.log(p[propName]);
+    </script>
+  </body>
+</html>
