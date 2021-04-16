@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记=作用域链面试题2</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var fn = function () {
+        // 注意，此时的 fn 不是字符串，而是函数 fn()
+        console.log(fn);
+      };
+      fn(); //ƒ () {console.log(fn);}
+
+      var obj = {
+        fn2: function () {
+          console.log(this);
+          console.log(this.fn2);
+
+          // 此时在函数fn2内部去找其是否存在fn2函数，结果找不到，然后就去全局中寻找,
+          // 而此时的全局作用域中没有定义 fn2()函数，所以找不到
+          console.log(fn2);
+        },
+      };
+      console.log(obj instanceof Object); //true
+      // obj.fn2(); //Uncaught ReferenceError: fn2 is not defined
+    </script>
+  </body>
+</html>

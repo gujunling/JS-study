@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-作用域链面试题</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var x = 10;
+      function fn() {
+        console.log(x);
+      }
+      function show(f) {
+        var x = 20;
+        f();
+      }
+      show(fn); //10
+      // 因为fn函数是一个单独的函数作用域，在这个函数作用域中找不到变量 x 的时候会沿着作用域链在全局作用域中去找。
+      // 因为没有闭包，所以 fn()函数 函数作用域中的变量在 show 函数中不能被访问
+    </script>
+  </body>
+</html>
