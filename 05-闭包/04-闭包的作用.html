@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-闭包的作用</title>
+  </head>
+  <body>
+    <!--
+    1. 使用函数内部的变量在函数执行完后, 仍然存活在内存中(延长了局部变量的生命周期)
+    2. 让函数外部可以操作(读写)到函数内部的数据(变量/函数)
+    
+    问题:
+      1. 函数执行完后, 函数内部声明的局部变量是否还存在?  
+             一般是不存在, 存在于闭包中的变量才可能存在
+      2. 在函数外部能直接访问函数内部的局部变量吗? 
+             不能, 但我们可以通过闭包让外部操作它
+    -->
+    <script type="text/javascript">
+      function fn1() {
+        var a = 2;
+        function fn2() {
+          a++;
+          console.log(a);
+          // return a
+        }
+        function fn3() {
+          a--;
+          console.log(a);
+        }
+        return fn3;
+      }
+      var f = fn1();
+      f(); // 1
+      f(); // 0
+      //  此时的函数内部声明的存在于闭包中的变量 a 依旧存在，
+      //  闭包之中并不存在函数fn2()这个变量， 函数fn2()则因为没有被引用，所以fn2()函数已经被释放了，此时的fn2()这个函数对象成为了垃圾对象，会被回收。
+      //  闭包之中也不存在函数fn3()这个变量，在函数执行完之后fn3()这个变量会被释放，但是函数对象fn3()并没有成为垃圾对象,
+      //      因为在后面的语句中 var f = fn1();的f在引用，f 指向fn3()这个函数对象,如果通过 fn1()语句来调用函数，则函数fn3()也会成为垃圾对象，也会被回收。
+    </script>
+  </body>
+</html>

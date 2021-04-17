@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-常见的闭包</title>
+  </head>
+  <body>
+    <!--
+    1. 将函数作为另一个函数的返回值
+    2. 将函数作为实参传递给另一个函数调用
+    -->
+    <script type="text/javascript">
+      // 1. 将函数作为另一个函数的返回值
+
+      //   在整个过程中只产生了一个闭包，因为 fn2() 函数只创建了一次，
+      //   闭包创建了多少个只与外部函数执行多少次有关系(外部函数执行的时候才会创建内部函数)，和内部函数执行多少次没有关系
+      // 如果想要创建两个闭包，则需要创建两个 fn2() 函数，即再次执行一次 fn1() 函数 即可
+      function fn1() {
+        var a = 2;
+        function fn2() {
+          a++;
+          console.log(a);
+        }
+        return fn2;
+      }
+      var f = fn1();
+      f(); // 3
+      //   此时闭包并没有消失，所以 变量 a 此时是 3
+      f(); // 4
+
+      // 2. 将函数作为实参传递给另一个函数调用
+      function showDelay(msg, time) {
+        setTimeout(function () {
+          alert(msg);
+        }, time);
+      }
+      showDelay("小胖", 2000);
+    </script>
+  </body>
+</html>

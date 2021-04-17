@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-利用闭包实现循环遍历加监听</title>
+  </head>
+  <body>
+    <button>测试1</button>
+    <button>测试2</button>
+    <button>测试3</button>
+    <!--
+    需求: 点击某个按钮, 提示"点击的是第n个按钮"
+    -->
+    <script type="text/javascript">
+      let btns = document.getElementsByTagName("button");
+      //遍历加监听
+      //   btns是一个伪数组，每一次都需要计算btns.length的值，所以直接按照以前的for循环去遍历，需要计算多次效率较低，
+      // 可以选择在for循环外面定义或者是在for循环的i < btns.length之前的 let i = 0; 修改为如下 let i = 0, length = btns.length ，这样的话只计算一次btns.length 的值
+      //   for (let i = 0, length = btns.length; i < length; i++) {
+      //     let btn = btns[i];
+      //   此时的点击事件会在for循环执行完了之后再执行，所以，如果使用 var 定义变量 i 的话，会导致点击事件中拿到的 i 永远都是 3 ，点击事件中在执行时弹出的提示永远都是第 4 个
+      //     btn.onclick = function () {
+      //       alert("第" + (i + 1) + "个");
+      //     };
+      //   }
+
+      //   for (let i = 0, length = btns.length; i < length; i++) {
+      //     let btn = btns[i];
+      //     //将btn所对应的下标保存在btn上，解决通过 var 定义变量 i 时，点击事件中拿到的 i 永远都为 3 的情况
+      //     btn.index = i;
+      //     btn.onclick = function () {
+      //       alert("第" + (this.index + 1) + "个");
+      //     };
+      //   }
+
+      //利用闭包
+      for (let i = 0, length = btns.length; i < length; i++) {
+        (function (j) {
+          let btn = btns[j];
+          btn.onclick = function () {
+            alert("第" + (j + 1) + "个");
+          };
+        })(i);
+      }
+    </script>
+  </body>
+</html>

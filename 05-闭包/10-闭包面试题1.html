@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-闭包面试题</title>
+  </head>
+  <body>
+    <!-- 参考阮神网页：https://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html -->
+    <script>
+      var name = "The Window";
+
+      var object = {
+        name: "My Object",
+
+        getNameFunc: function () {
+          return function () {
+            console.log(this);
+            return this.name;
+          };
+        },
+      };
+      console.log(object.getNameFunc()());
+      // object.getNameFunc()的返回值是一个函数，而此时是直接执行了这个返回的函数（在全局作用域中调用的此函数，此时的全局上下文为window），所以此时是window来调用
+      // 此时是没有闭包的
+      /*
+      Window {window: Window, self: Window, document: document, name: "The Window", location: Location, …}
+      The Window
+    */
+    </script>
+
+    <script>
+      var name = "The Window";
+
+      var object = {
+        name: "My Object",
+
+        getNameFunc: function () {
+          console.log("this====>", this);
+          var that = this;
+          return function () {
+            console.log(that);
+            console.log(this);
+            return that.name;
+          };
+        },
+      };
+      console.log(object.getNameFunc()());
+      //此时是有闭包的，这个闭包里的变量就是that ，此时的that为自己定义的这个object对象
+
+      /*
+      this====> {name: "My Object", getNameFunc: ƒ}
+      {name: "My Object", getNameFunc: ƒ}
+      Window {window: Window, self: Window, document: document, name: "The Window", location: Location, …}
+      My Object
+    */
+    </script>
+
+    <script>
+      var name = "The Window";
+      var age = 66;
+
+      var object = {
+        name: "My Object",
+
+        getNameFunc: function () {
+          console.log("this====>", this);
+          var that = this;
+          return function () {
+            console.log(that);
+            console.log(this);
+            return that.age;
+          };
+        },
+      };
+      console.log(object.getNameFunc()());
+      //此时是有闭包的，这个闭包里的变量就是that ，此时的that为自己定义的这个object对象
+
+      /*
+        this====> {name: "My Object", getNameFunc: ƒ}
+        {name: "My Object", getNameFunc: ƒ}
+        Window {window: Window, self: Window, document: document, name: "The Window", location: Location, …}
+        undefined
+      */
+    </script>
+  </body>
+</html>
