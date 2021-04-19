@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>前端小记-借用构造函数继承</title>
+  </head>
+  <body>
+    <!--
+    方式2: 借用构造函数继承(假的)
+    1. 套路:
+       1.1. 定义父类型构造函数
+       1.2. 定义子类型构造函数
+       1.3. 在子类型构造函数中调用父类型构造
+    2. 关键:
+      1. 在子类型构造函数中通过call()调用父类型构造函数
+    -->
+    <script type="text/javascript">
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      function Student(name, age, price) {
+        Person.call(this, name, age);
+        // 相当于是借用了Person这个函数
+        /*this.name = name
+        this.age = age*/
+        this.price = price;
+      }
+
+      let s = new Student("Tom", 20, 14000);
+      console.log(s.name, s.age, s.price);
+    </script>
+  </body>
+</html>

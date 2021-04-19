@@ -39,6 +39,7 @@
       for (let i = 0, length = btns.length; i < length; i++) {
         (function (j) {
           let btn = btns[j];
+          // 此时的闭包永远不会消失，因为被按钮 btn 的 onclick 属性一直在引用着
           btn.onclick = function () {
             alert("第" + (j + 1) + "个");
           };
